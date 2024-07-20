@@ -38,6 +38,8 @@ impl MainBody {
                 ui.add(Label::new(RichText::new(format!("· Количество налогов за месяц : {}", f32_string(taxes)))));
                 ui.add(Label::new(RichText::new(format!("· Страховые взносы за месяц {}", f32_string(insurance)))));
                 ui.add(Label::new(RichText::new(format!("· Другие обязательные траты : {}", f32_string(spends)))));
+                ui.add(Label::new(RichText::new(format!("· 1% свыше дохода 300к : {}", f32_string(include_1_percent_tax(profit))))));
+                ui.add(Label::new(RichText::new(format!("· Взносы на капитальный ремонт : {}", f32_string(include_repair_summary())))));
                 ui.add(Label::new(RichText::new(format!("· Чистый доход : {}", f32_string(result))).underline().color(Color32::WHITE)));
             }
             ModeType::Static => {
@@ -58,7 +60,7 @@ impl MainBody {
                 let taxes = string_f32(&self.profit) * 0.06;
                 let insurance = string_f32(&self.yearly_insurance) / 12f32;
                 let spends = string_f32(&self.other_spends);
-                let result = profit - insurance - tax_exception(taxes, insurance) - spends - include_1_percent_tax(profit);
+                let result = profit - insurance - tax_exception(taxes, insurance) - spends - include_1_percent_tax(profit) - include_repair_summary();
                 (profit, taxes, insurance, spends, result)
             }
             ModeType::Static => {
@@ -83,6 +85,10 @@ pub fn tax_exception(tax : f32, insurance : f32) -> f32 {
 
 pub fn include_1_percent_tax(monthly_profit: f32) -> f32 {
     return (monthly_profit * 12f32 - 300000f32) / 12f32 * 0.01
+}
+
+pub fn include_repair_summary() -> f32 {
+    return 2000f32
 }
 
 pub fn string_f32(object : &String) -> f32 {
