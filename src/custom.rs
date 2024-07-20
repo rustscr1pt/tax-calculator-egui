@@ -32,7 +32,7 @@ pub fn checkmark_drawer(ui : &mut Ui) -> () {
 pub fn setup_custom_fonts(ctx : &egui::Context) -> () {
     let mut fonts = egui::FontDefinitions::default();
 
-    fonts.font_data.insert("Custom".to_owned(), egui::FontData::from_static(include_bytes!(r#"C:\Users\User\RustroverProjects\tax_calculator\fonts\Tektur-Regular.ttf"#)));
+    fonts.font_data.insert("Custom".to_owned(), egui::FontData::from_static(include_bytes!("/Users/egorivanov/RustroverProjects/test/tax-calculator-egui/fonts/Tektur-Regular.ttf")));
     fonts.families.entry(egui::FontFamily::Proportional).or_default().insert(0, "Custom".to_string());
     ctx.set_fonts(fonts);
 }
